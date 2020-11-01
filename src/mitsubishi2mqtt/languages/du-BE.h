@@ -134,5 +134,5 @@ const char txt_upload_refresh[] PROGMEM = "Herstart in";
 
 //Page Init
 const char txt_init_title[] PROGMEM = "Initiele setup";
-const char txt_init_reboot_mes[] PROGMEM = "Herstarten en connecteren aan het WiFi netwderk! ZOu zichtbaar moeten zijn in het AP. ";
+const char txt_init_reboot_mes[] PROGMEM = "Herstarten en connecteren aan het WiFi netwderk! Zou zichtbaar moeten zijn in het AP. ";
 const char txt_init_reboot[] PROGMEM = "Herstarten...";

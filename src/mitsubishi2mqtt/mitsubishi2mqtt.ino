@@ -44,12 +44,12 @@ ESP8266WebServer server(80);  // ESP8266 web
 #include "html_pages.h"   // code html for pages
 // Languages
 #ifndef MY_LANGUAGE
-  #include "languages/en-GB.h" // default language English
+#include "languages/en-GB.h" // default language English
 #else
-  #define QUOTEME(x) QUOTEME_1(x)
-  #define QUOTEME_1(x) #x
-  #define INCLUDE_FILE(x) QUOTEME(languages/x.h)
-  #include INCLUDE_FILE(MY_LANGUAGE)
+#define QUOTEME(x) QUOTEME_1(x)
+#define QUOTEME_1(x) #x
+#define INCLUDE_FILE(x) QUOTEME(languages/x.h)
+#include INCLUDE_FILE(MY_LANGUAGE)
 #endif
 
 //Ticker ticker;
@@ -95,7 +95,7 @@ void setup() {
     // Serial.println(F("Failed to mount FS -> formating"));
     SPIFFS.format();
     // if (SPIFFS.begin())
-      // Serial.println(F("Mounted file system after formating"));
+    // Serial.println(F("Mounted file system after formating"));
   }
   //set led pin as output
   pinMode(blueLedPin, OUTPUT);
@@ -188,6 +188,8 @@ void setup() {
     rootInfo["action"]              = hpGetAction(currentStatus.operating, currentSettings.power, currentSettings.mode);
     rootInfo["compressorFrequency"] = currentStatus.compressorFrequency;
     lastTempSend = millis();
+    // RSC allow remote and iSensor to update settings
+    hp.enableExternalUpdate();
   }
   else {
     dnsServer.start(DNS_PORT, "*", apIP);
@@ -546,14 +548,14 @@ void sendWrappedHTML(String content) {
 void handleNotFound() {
   if (captive) {
     String initSetupContent = FPSTR(html_init_setup);
-    initSetupContent.replace("_TXT_INIT_TITLE_",FPSTR(txt_init_title));
-    initSetupContent.replace("_TXT_INIT_HOST_",FPSTR(txt_wifi_hostname));
+    initSetupContent.replace("_TXT_INIT_TITLE_", FPSTR(txt_init_title));
+    initSetupContent.replace("_TXT_INIT_HOST_", FPSTR(txt_wifi_hostname));
     initSetupContent.replace("_UNIT_NAME_", hostname);
-    initSetupContent.replace("_TXT_INIT_SSID_",FPSTR(txt_wifi_SSID));
-    initSetupContent.replace("_TXT_INIT_PSK_",FPSTR(txt_wifi_psk));
-    initSetupContent.replace("_TXT_INIT_OTA_",FPSTR(txt_wifi_otap));
-    initSetupContent.replace("_TXT_SAVE_",FPSTR(txt_save));
-    initSetupContent.replace("_TXT_REBOOT_",FPSTR(txt_reboot));
+    initSetupContent.replace("_TXT_INIT_SSID_", FPSTR(txt_wifi_SSID));
+    initSetupContent.replace("_TXT_INIT_PSK_", FPSTR(txt_wifi_psk));
+    initSetupContent.replace("_TXT_INIT_OTA_", FPSTR(txt_wifi_otap));
+    initSetupContent.replace("_TXT_SAVE_", FPSTR(txt_save));
+    initSetupContent.replace("_TXT_REBOOT_", FPSTR(txt_reboot));
 
     server.send(200, "text/html", initSetupContent);
   }
@@ -572,7 +574,7 @@ void handleSaveWifi() {
     saveWifi(server.arg("ssid"), server.arg("psk"), server.arg("hn"), server.arg("otapwd"));
   }
   String initSavePage =  FPSTR(html_init_save);
-  initSavePage.replace("_TXT_INIT_REBOOT_MESS_",FPSTR(txt_init_reboot_mes));
+  initSavePage.replace("_TXT_INIT_REBOOT_MESS_", FPSTR(txt_init_reboot_mes));
   sendWrappedHTML(initSavePage);
   delay(500);
   ESP.restart();
@@ -580,7 +582,7 @@ void handleSaveWifi() {
 
 void handleReboot() {
   String initRebootPage = FPSTR(html_init_reboot);
-  initRebootPage.replace("_TXT_INIT_REBOOT_",FPSTR(txt_init_reboot));
+  initRebootPage.replace("_TXT_INIT_REBOOT_", FPSTR(txt_init_reboot));
   sendWrappedHTML(initRebootPage);
   delay(500);
   ESP.restart();
@@ -591,7 +593,7 @@ void handleRoot() {
   if (server.hasArg("REBOOT")) {
     String rebootPage =  FPSTR(html_page_reboot);
     String countDown = FPSTR(count_down_script);
-    rebootPage.replace("_TXT_M_REBOOT_",FPSTR(txt_m_reboot));
+    rebootPage.replace("_TXT_M_REBOOT_", FPSTR(txt_m_reboot));
     sendWrappedHTML(rebootPage + countDown);
     delay(500);
 #ifdef ESP32
@@ -605,25 +607,25 @@ void handleRoot() {
     menuRootPage.replace("_SHOW_LOGOUT_", (String)(login_password.length() > 0));
     //not show control button if hp not connected
     menuRootPage.replace("_SHOW_CONTROL_", (String)(hp.isConnected()));
-    menuRootPage.replace("_TXT_CONTROL_",FPSTR(txt_control));
-    menuRootPage.replace("_TXT_SETUP_",FPSTR(txt_setup));
-    menuRootPage.replace("_TXT_STATUS_",FPSTR(txt_status));
-    menuRootPage.replace("_TXT_FW_UPGRADE_",FPSTR(txt_firmware_upgrade));
-    menuRootPage.replace("_TXT_REBOOT_",FPSTR(txt_reboot));
-    menuRootPage.replace("_TXT_LOGOUT_",FPSTR(txt_logout));
+    menuRootPage.replace("_TXT_CONTROL_", FPSTR(txt_control));
+    menuRootPage.replace("_TXT_SETUP_", FPSTR(txt_setup));
+    menuRootPage.replace("_TXT_STATUS_", FPSTR(txt_status));
+    menuRootPage.replace("_TXT_FW_UPGRADE_", FPSTR(txt_firmware_upgrade));
+    menuRootPage.replace("_TXT_REBOOT_", FPSTR(txt_reboot));
+    menuRootPage.replace("_TXT_LOGOUT_", FPSTR(txt_logout));
     sendWrappedHTML(menuRootPage);
   }
 }
 
 void handleInitSetup() {
   String initSetupPage = FPSTR(html_init_setup);
-  initSetupPage.replace("_TXT_INIT_TITLE_",FPSTR(txt_init_title));
-  initSetupPage.replace("_TXT_INIT_HOST_",FPSTR(txt_wifi_hostname));
-  initSetupPage.replace("_TXT_INIT_SSID_",FPSTR(txt_wifi_SSID));
-  initSetupPage.replace("_TXT_INIT_PSK_",FPSTR(txt_wifi_psk));
-  initSetupPage.replace("_TXT_INIT_OTA_",FPSTR(txt_wifi_otap));
-  initSetupPage.replace("_TXT_SAVE_",FPSTR(txt_save));
-  initSetupPage.replace("_TXT_REBOOT_",FPSTR(txt_reboot));
+  initSetupPage.replace("_TXT_INIT_TITLE_", FPSTR(txt_init_title));
+  initSetupPage.replace("_TXT_INIT_HOST_", FPSTR(txt_wifi_hostname));
+  initSetupPage.replace("_TXT_INIT_SSID_", FPSTR(txt_wifi_SSID));
+  initSetupPage.replace("_TXT_INIT_PSK_", FPSTR(txt_wifi_psk));
+  initSetupPage.replace("_TXT_INIT_OTA_", FPSTR(txt_wifi_otap));
+  initSetupPage.replace("_TXT_SAVE_", FPSTR(txt_save));
+  initSetupPage.replace("_TXT_REBOOT_", FPSTR(txt_reboot));
 
   sendWrappedHTML(initSetupPage);
 }
@@ -634,8 +636,8 @@ void handleSetup() {
     String pageReset = FPSTR(html_page_reset);
     String ssid = hostnamePrefix;
     ssid += getId();
-    pageReset.replace("_TXT_M_RESET_",FPSTR(txt_m_reset));
-    pageReset.replace("_SSID_",ssid);
+    pageReset.replace("_TXT_M_RESET_", FPSTR(txt_m_reset));
+    pageReset.replace("_SSID_", ssid);
     sendWrappedHTML(pageReset);
     SPIFFS.format();
     delay(500);
@@ -647,25 +649,25 @@ void handleSetup() {
   }
   else {
     String menuSetupPage = FPSTR(html_menu_setup);
-    menuSetupPage.replace("_TXT_MQTT_",FPSTR(txt_MQTT));
-    menuSetupPage.replace("_TXT_WIFI_",FPSTR(txt_WIFI));
-    menuSetupPage.replace("_TXT_UNIT_",FPSTR(txt_unit));
-    menuSetupPage.replace("_TXT_OTHERS_",FPSTR(txt_others));
-    menuSetupPage.replace("_TXT_RESET_",FPSTR(txt_reset));
-    menuSetupPage.replace("_TXT_BACK_",FPSTR(txt_back));
-    menuSetupPage.replace("_TXT_RESETCONFIRM_",FPSTR(txt_reset_confirm));
+    menuSetupPage.replace("_TXT_MQTT_", FPSTR(txt_MQTT));
+    menuSetupPage.replace("_TXT_WIFI_", FPSTR(txt_WIFI));
+    menuSetupPage.replace("_TXT_UNIT_", FPSTR(txt_unit));
+    menuSetupPage.replace("_TXT_OTHERS_", FPSTR(txt_others));
+    menuSetupPage.replace("_TXT_RESET_", FPSTR(txt_reset));
+    menuSetupPage.replace("_TXT_BACK_", FPSTR(txt_back));
+    menuSetupPage.replace("_TXT_RESETCONFIRM_", FPSTR(txt_reset_confirm));
     sendWrappedHTML(menuSetupPage);
   }
 
 }
 
 void rebootAndSendPage() {
-    String saveRebootPage =  FPSTR(html_page_save_reboot);
-    String countDown = FPSTR(count_down_script);
-    saveRebootPage.replace("_TXT_M_SAVE_",FPSTR(txt_m_save));
-    sendWrappedHTML(saveRebootPage + countDown);
-    delay(500);
-    ESP.restart();
+  String saveRebootPage =  FPSTR(html_page_save_reboot);
+  String countDown = FPSTR(count_down_script);
+  saveRebootPage.replace("_TXT_M_SAVE_", FPSTR(txt_m_save));
+  sendWrappedHTML(saveRebootPage + countDown);
+  delay(500);
+  ESP.restart();
 }
 
 void handleOthers() {
@@ -1036,11 +1038,11 @@ void handleUpgrade()
 {
   uploaderror = 0;
   String upgradePage = FPSTR(html_page_upgrade);
-  upgradePage.replace("_TXT_B_UPGRADE_",FPSTR(txt_upgrade));
-  upgradePage.replace("_TXT_BACK_",FPSTR(txt_back));
-  upgradePage.replace("_TXT_UPGRADE_TITLE_",FPSTR(txt_upgrade_title));
-  upgradePage.replace("_TXT_UPGRADE_INFO_",FPSTR(txt_upgrade_info));
-  upgradePage.replace("_TXT_UPGRADE_START_",FPSTR(txt_upgrade_start));
+  upgradePage.replace("_TXT_B_UPGRADE_", FPSTR(txt_upgrade));
+  upgradePage.replace("_TXT_BACK_", FPSTR(txt_back));
+  upgradePage.replace("_TXT_UPGRADE_TITLE_", FPSTR(txt_upgrade_title));
+  upgradePage.replace("_TXT_UPGRADE_INFO_", FPSTR(txt_upgrade_info));
+  upgradePage.replace("_TXT_UPGRADE_START_", FPSTR(txt_upgrade_start));
 
   sendWrappedHTML(upgradePage);
 }
@@ -1293,7 +1295,8 @@ void hpStatusChanged(heatpumpStatus currentStatus) {
     heatpumpSettings currentSettings = hp.getSettings();
 
     if (currentStatus.roomTemperature == 0) return;
-
+    // RSC clears the JsonDocument and releases all the memory from the memory pool.
+    rootInfo.clear();
     rootInfo["roomTemperature"]     = convertCelsiusToLocalUnit(currentStatus.roomTemperature, useFahrenheit);
     rootInfo["temperature"]         = convertCelsiusToLocalUnit(currentSettings.temperature, useFahrenheit);
     rootInfo["fan"]                 = currentSettings.fan;
@@ -1448,29 +1451,29 @@ void mqttCallback(char* topic, byte* payload, unsigned int length) {
       mqtt_client.publish(ha_debug_topic.c_str(), (char *)("Debug mode disabled"));
     }
   }
-  else if(strcmp(topic, ha_custom_packet.c_str()) == 0) { //send custom packet for advance user
-      String custom = message;
+  else if (strcmp(topic, ha_custom_packet.c_str()) == 0) { //send custom packet for advance user
+    String custom = message;
 
-      // copy custom packet to char array
-      char buffer[(custom.length() + 1)]; // +1 for the NULL at the end
-      custom.toCharArray(buffer, (custom.length() + 1));
+    // copy custom packet to char array
+    char buffer[(custom.length() + 1)]; // +1 for the NULL at the end
+    custom.toCharArray(buffer, (custom.length() + 1));
 
-      byte bytes[20]; // max custom packet bytes is 20
-      int byteCount = 0;
-      char *nextByte;
+    byte bytes[20]; // max custom packet bytes is 20
+    int byteCount = 0;
+    char *nextByte;
 
-      // loop over the byte string, breaking it up by spaces (or at the end of the line - \n)
-      nextByte = strtok(buffer, " ");
-      while (nextByte != NULL && byteCount < 20) {
-        bytes[byteCount] = strtol(nextByte, NULL, 16); // convert from hex string
-        nextByte = strtok(NULL, "   ");
-        byteCount++;
-      }
+    // loop over the byte string, breaking it up by spaces (or at the end of the line - \n)
+    nextByte = strtok(buffer, " ");
+    while (nextByte != NULL && byteCount < 20) {
+      bytes[byteCount] = strtol(nextByte, NULL, 16); // convert from hex string
+      nextByte = strtok(NULL, "   ");
+      byteCount++;
+    }
 
-      // dump the packet so we can see what it is. handy because you can run the code without connecting the ESP to the heatpump, and test sending custom packets
-      hpPacketDebug(bytes, byteCount, "customPacket");
+    // dump the packet so we can see what it is. handy because you can run the code without connecting the ESP to the heatpump, and test sending custom packets
+    hpPacketDebug(bytes, byteCount, "customPacket");
 
-      hp.sendCustomPacket(bytes, byteCount);
+    hp.sendCustomPacket(bytes, byteCount);
   }
   else {
     mqtt_client.publish(ha_debug_topic.c_str(), strcat((char *)"heatpump: wrong mqtt topic: ", topic));
@@ -1505,9 +1508,9 @@ void haConfig() {
   haConfig["temp_stat_t"]                   = ha_state_topic;
   //Set default value for fix "Could not parse data for HA"
   String temp_stat_tpl_str                  = F("{% if (value_json is defined and value_json.temperature is defined) %}{% if (value_json.temperature|int > ");
-  temp_stat_tpl_str                        +=(String)convertCelsiusToLocalUnit(min_temp, useFahrenheit) + " and value_json.temperature|int < ";
-  temp_stat_tpl_str                        +=(String)convertCelsiusToLocalUnit(max_temp, useFahrenheit) + ") %}{{ value_json.temperature }}";
-  temp_stat_tpl_str                        +="{% elif (value_json.temperature|int < " + (String)convertCelsiusToLocalUnit(min_temp, useFahrenheit) + ") %}" + (String)convertCelsiusToLocalUnit(min_temp, useFahrenheit) + "{% elif (value_json.temperature|int > " + (String)convertCelsiusToLocalUnit(max_temp, useFahrenheit) + ") %}" + (String)convertCelsiusToLocalUnit(max_temp, useFahrenheit) +  "{% endif %}{% else %}" + (String)convertCelsiusToLocalUnit(22, useFahrenheit) + "{% endif %}";
+  temp_stat_tpl_str                        += (String)convertCelsiusToLocalUnit(min_temp, useFahrenheit) + " and value_json.temperature|int < ";
+  temp_stat_tpl_str                        += (String)convertCelsiusToLocalUnit(max_temp, useFahrenheit) + ") %}{{ value_json.temperature }}";
+  temp_stat_tpl_str                        += "{% elif (value_json.temperature|int < " + (String)convertCelsiusToLocalUnit(min_temp, useFahrenheit) + ") %}" + (String)convertCelsiusToLocalUnit(min_temp, useFahrenheit) + "{% elif (value_json.temperature|int > " + (String)convertCelsiusToLocalUnit(max_temp, useFahrenheit) + ") %}" + (String)convertCelsiusToLocalUnit(max_temp, useFahrenheit) +  "{% endif %}{% else %}" + (String)convertCelsiusToLocalUnit(22, useFahrenheit) + "{% endif %}";
   haConfig["temp_stat_tpl"]                 = temp_stat_tpl_str;
   haConfig["curr_temp_t"]                   = ha_state_topic;
   String curr_temp_tpl_str                  = F("{{ value_json.roomTemperature if (value_json is defined and value_json.roomTemperature is defined and value_json.roomTemperature|int > ");
@@ -1632,7 +1635,7 @@ bool connectWifi() {
   // Serial.println(ap_ssid);
   // Serial.println(F("Ready"));
   // Serial.print("IP address: ");
-    while (WiFi.localIP().toString() == "0.0.0.0" || WiFi.localIP().toString() == "") {
+  while (WiFi.localIP().toString() == "0.0.0.0" || WiFi.localIP().toString() == "") {
     // Serial.write('.');
     delay(500);
   }
@@ -1725,14 +1728,14 @@ void checkLogin() {
 void loop() {
   server.handleClient();
   ArduinoOTA.handle();
-  
+
   //reset board to attempt to connect to wifi again if in ap mode or wifi dropped out and time limit passed
   if (WiFi.getMode() == WIFI_STA and WiFi.status() == WL_CONNECTED) {
-	  wifi_timeout = millis() + WIFI_RETRY_INTERVAL_MS;
+    wifi_timeout = millis() + WIFI_RETRY_INTERVAL_MS;
   } else if (wifi_config_exists and millis() > wifi_timeout) {
-	  ESP.restart();
+    ESP.restart();
   }
-  
+
   if (!captive and mqtt_config) {
     // Sync HVAC UNIT
     if (!hp.isConnected()) {
@@ -1742,7 +1745,7 @@ void loop() {
         hp.sync();
       }
     } else {
-        hp.sync();
+      hp.sync();
     }
 
     //MQTT failed retry to connect

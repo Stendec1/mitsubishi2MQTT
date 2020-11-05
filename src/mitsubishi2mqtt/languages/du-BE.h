@@ -55,7 +55,7 @@ const char txt_f_noheat[] PROGMEM = "Alle modes behalve verwarmen";
 
 
 //Page Reboot, save & Resseting
-const char txt_m_reboot[] PROGMEM = "Herstarten... Terug in";
+const char txt_m_reboot[] PROGMEM = "Herstarten... Klaar in";
 const char txt_m_reset[] PROGMEM = "initialiseren... Connect to SSID";
 const char txt_m_save[] PROGMEM = "Opslaan configuratie en herstarten... Terug in";
 
@@ -133,6 +133,6 @@ const char txt_upload_sucess[] PROGMEM = "Successvol";
 const char txt_upload_refresh[] PROGMEM = "Herstart in";
 
 //Page Init
-const char txt_init_title[] PROGMEM = "Initiele setup";
+const char txt_init_title[] PROGMEM = "Initiële setup";
 const char txt_init_reboot_mes[] PROGMEM = "Herstarten en connecteren aan het WiFi netwderk! Zou zichtbaar moeten zijn in het AP. ";
 const char txt_init_reboot[] PROGMEM = "Herstarten...";

@@ -44,7 +44,7 @@ ESP8266WebServer server(80);  // ESP8266 web
 #include "html_pages.h"   // code html for pages
 // Languages
 #ifndef MY_LANGUAGE
-#include "languages/en-GB.h" // default language English
+#include "languages/du-BE.h" // default language English
 #else
 #define QUOTEME(x) QUOTEME_1(x)
 #define QUOTEME_1(x) #x

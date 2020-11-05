@@ -15,7 +15,7 @@
 */
 
 //Main Menu
-const char txt_control[] PROGMEM = "Control";
+const char txt_control[] PROGMEM = "Controle";
 const char txt_setup[] PROGMEM = "Setup";
 const char txt_status[] PROGMEM = "Status";
 const char txt_firmware_upgrade[] PROGMEM = "Firmware Opladen";
@@ -90,17 +90,17 @@ const char txt_wifi_psk[] PROGMEM = "PSK";
 const char txt_wifi_otap[] PROGMEM = "OTA Wachtwoord";
 
 //Page Control
-const char txt_ctrl_title[] PROGMEM = "Control Unit";
+const char txt_ctrl_title[] PROGMEM = "Bediening toestel";
 const char txt_ctrl_temp[] PROGMEM = "Temperatuur";
 const char txt_ctrl_power[] PROGMEM = "Aan/Uit";
 const char txt_ctrl_mode[] PROGMEM = "Mode";
-const char txt_ctrl_fan[] PROGMEM = "Ventilateur";
-const char txt_ctrl_vane[] PROGMEM = "Vlimmen";
-const char txt_ctrl_wvane[] PROGMEM = "Horizontale Vlimmen";
+const char txt_ctrl_fan[] PROGMEM = "Ventilator";
+const char txt_ctrl_vane[] PROGMEM = "Schoepen";
+const char txt_ctrl_wvane[] PROGMEM = "Horizontale Schoepen";
 const char txt_ctrl_ctemp[] PROGMEM = "Huidige temperatuur";
 
 //Page Unit
-const char txt_unit_title[] PROGMEM = "Unit configuratie";
+const char txt_unit_title[] PROGMEM = "Configuratie toestel";
 const char txt_unit_temp[] PROGMEM = "Temperatuur indicatie";
 const char txt_unit_maxtemp[] PROGMEM = "Maximum temperatuur";
 const char txt_unit_mintemp[] PROGMEM = "Minimum temperatuur";
@@ -109,7 +109,7 @@ const char txt_unit_modes[] PROGMEM = "Beschikbare modes";
 const char txt_unit_password[] PROGMEM = "Web wachtwoord";
 
 //Page Login
-const char txt_login_title[] PROGMEM = "Authenticatie";
+const char txt_login_title[] PROGMEM = "Inloggen";
 const char txt_login_password[] PROGMEM = "Wachtwoord";
 const char txt_login_sucess[] PROGMEM = "Successvol ingelogd, je wordt zodadelijk toegelaten.";
 const char txt_login_fail[] PROGMEM = "Foutieve gebruikersnaam/wachtwoord! Probeer opnieuw.";

@@ -15,7 +15,7 @@
 */
 
 //Main Menu
-const char txt_control[] PROGMEM = "Controle";
+const char txt_control[] PROGMEM = "Bediening";
 const char txt_setup[] PROGMEM = "Setup";
 const char txt_status[] PROGMEM = "Status";
 const char txt_firmware_upgrade[] PROGMEM = "Firmware Opladen";

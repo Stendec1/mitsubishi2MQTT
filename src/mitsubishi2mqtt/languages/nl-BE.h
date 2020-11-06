@@ -61,7 +61,7 @@ const char txt_m_save[] PROGMEM = "Opslaan configuratie en herstarten... Terug i
 
 //Page MQTT
 const char txt_mqtt_title[] PROGMEM = "MQTT Parameters";
-const char txt_mqtt_fn[] PROGMEM = "Vriendelijk name";
+const char txt_mqtt_fn[] PROGMEM = "Vriendelijke name";
 const char txt_mqtt_host[] PROGMEM = "Host";
 const char txt_mqtt_port[] PROGMEM = "Poort (normaal 1883)";
 const char txt_mqtt_user[] PROGMEM = "Gebruiker";

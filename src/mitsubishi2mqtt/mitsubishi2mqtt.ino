@@ -1305,7 +1305,7 @@ void hpStatusChanged(heatpumpStatus currentStatus) {
     rootInfo["mode"]                = hpGetMode(currentSettings.power, currentSettings.mode);
     rootInfo["action"]              = hpGetAction(currentStatus.operating, currentSettings.power, currentSettings.mode);
     rootInfo["compressorFrequency"] = currentStatus.compressorFrequency;
-    rootInfo["iSee"]                = currentSettings.iSee ? "On" : "Off";
+    rootInfo["iSee"]                = currentSettings.iSee ? "On" : "Off"; // RSC iSee sensor active?
     String mqttOutput;
     serializeJson(rootInfo, mqttOutput);
 

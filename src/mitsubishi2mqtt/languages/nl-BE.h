@@ -16,7 +16,7 @@
 
 //Main Menu
 const char txt_control[] PROGMEM = "Bediening";
-const char txt_setup[] PROGMEM = "Setup";
+const char txt_setup[] PROGMEM = "Instelling";
 const char txt_status[] PROGMEM = "Status";
 const char txt_firmware_upgrade[] PROGMEM = "Firmware Opladen";
 const char txt_reboot[] PROGMEM = "Herstart";
@@ -40,10 +40,10 @@ const char txt_login[] PROGMEM = "LOGIN";
 const char txt_f_on[] PROGMEM = "AAN";
 const char txt_f_off[] PROGMEM = "UIT";
 const char txt_f_auto[] PROGMEM = "AUTO";
-const char txt_f_heat[] PROGMEM = "WARM";
-const char txt_f_dry[] PROGMEM = "DROOG";
-const char txt_f_cool[] PROGMEM = "KOUD";
-const char txt_f_fan[] PROGMEM = "VENTILATOR";
+const char txt_f_heat[] PROGMEM = "VERWARMEN";
+const char txt_f_dry[] PROGMEM = "DROGEN";
+const char txt_f_cool[] PROGMEM = "KOELEN";
+const char txt_f_fan[] PROGMEM = "VENTILEREN";
 const char txt_f_quiet[] PROGMEM = "STIL";
 const char txt_f_speed[] PROGMEM = "SNELHEID";
 const char txt_f_swing[] PROGMEM = "SWING";
@@ -95,7 +95,7 @@ const char txt_ctrl_temp[] PROGMEM = "Temperatuur";
 const char txt_ctrl_power[] PROGMEM = "Aan/Uit";
 const char txt_ctrl_mode[] PROGMEM = "Mode";
 const char txt_ctrl_fan[] PROGMEM = "Ventilator";
-const char txt_ctrl_vane[] PROGMEM = "Schoepen";
+const char txt_ctrl_vane[] PROGMEM = "Vertikale Schoepen";
 const char txt_ctrl_wvane[] PROGMEM = "Horizontale Schoepen";
 const char txt_ctrl_ctemp[] PROGMEM = "Huidige temperatuur";
 

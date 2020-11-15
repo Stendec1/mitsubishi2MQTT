@@ -61,7 +61,7 @@ const char txt_m_save[] PROGMEM = "Opslaan configuratie en herstarten... Terug i
 
 //Page MQTT
 const char txt_mqtt_title[] PROGMEM = "MQTT Parameters";
-const char txt_mqtt_fn[] PROGMEM = "Vriendelijke name";
+const char txt_mqtt_fn[] PROGMEM = "Vriendelijke naam";
 const char txt_mqtt_host[] PROGMEM = "Host";
 const char txt_mqtt_port[] PROGMEM = "Poort (normaal 1883)";
 const char txt_mqtt_user[] PROGMEM = "Gebruiker";
@@ -79,7 +79,7 @@ const char txt_status_title[] PROGMEM = "Status";
 const char txt_status_hvac[] PROGMEM = "HVAC Status";
 const char txt_status_mqtt[] PROGMEM = "MQTT Status";
 const char txt_status_wifi[] PROGMEM = "WIFI RSSI";
-const char txt_status_connect[] PROGMEM = "GECONNECTEERD";
+const char txt_status_connect[] PROGMEM = "GEKOPPELD";
 const char txt_status_disconnect[] PROGMEM = "AFGEKOPPELD";
 
 //Page WIFI
@@ -121,9 +121,9 @@ const char txt_upgrade_start[] PROGMEM = "Opladen gestart";
 
 //Page Upload
 const char txt_upload_nofile[] PROGMEM = "Geen bestand geselecteerd";
-const char txt_upload_filetoolarge[] PROGMEM = "Bestand is groter dan de beschikbare vrijer ruimte";
+const char txt_upload_filetoolarge[] PROGMEM = "Bestand is groter dan de beschikbare vrije ruimte";
 const char txt_upload_fileheader[] PROGMEM = "Bestand magic header start niet met 0xE9";
-const char txt_upload_flashsize[] PROGMEM = "Flash bestand is groter dan flash de flash ruimte op het device";
+const char txt_upload_flashsize[] PROGMEM = "Flash bestand is groter dan flash de flash ruimte op de module";
 const char txt_upload_buffer[] PROGMEM = "Bestand oplaad buffer komt niet overeen";
 const char txt_upload_failed[] PROGMEM = "Opladen gefaald. Zet logging optie 3 aan voor meer informatie";
 const char txt_upload_aborted[] PROGMEM = "Opladen onderbroken";
@@ -134,5 +134,5 @@ const char txt_upload_refresh[] PROGMEM = "Herstart in";
 
 //Page Init
 const char txt_init_title[] PROGMEM = "Initiële setup";
-const char txt_init_reboot_mes[] PROGMEM = "Herstarten en connecteren aan het WiFi netwderk! Zou zichtbaar moeten zijn in het AP. ";
+const char txt_init_reboot_mes[] PROGMEM = "Herstarten en connecteren aan het WiFi netwerk! Zou zichtbaar moeten zijn in het AP. ";
 const char txt_init_reboot[] PROGMEM = "Herstarten...";

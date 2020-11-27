@@ -14,13 +14,13 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#include "FS.h"               // SPIFFS for store config
+#include "FS.h"               // LittleFS for store config
 #ifdef ESP32
 #include <WiFi.h>             // WIFI for ESP32
 #include <WiFiUdp.h>
 #include <ESPmDNS.h>          // mDNS for ESP32
 #include <WebServer.h>        // webServer for ESP32
-#include "SPIFFS.h"           // ESP32 SPIFFS for store config
+#include "LittleFS.h"           // ESP32 LittleFS for store config
 WebServer server(80);         //ESP32 web
 #else
 #include <ESP8266WiFi.h>      // WIFI for ESP8266
@@ -28,6 +28,7 @@ WebServer server(80);         //ESP32 web
 #include <ESP8266WebServer.h> // webServer for ESP8266
 ESP8266WebServer server(80);  // ESP8266 web
 #endif
+#include <LittleFS.h>         // LittleFS replacement
 #include <ArduinoJson.h>      // json to process MQTT: ArduinoJson 6.11.4
 #include <PubSubClient.h>     // MQTT: PubSubClient 2.7.0
 #include <DNSServer.h>        // DNS for captive portal
@@ -44,7 +45,7 @@ ESP8266WebServer server(80);  // ESP8266 web
 #include "html_pages.h"   // code html for pages
 // Languages
 #ifndef MY_LANGUAGE
-#include "languages/nl-BE.h" // default language English
+#include "languages/en-GB.h" // default language English
 #else
 #define QUOTEME(x) QUOTEME_1(x)
 #define QUOTEME_1(x) #x
@@ -85,16 +86,16 @@ void setup() {
   // Start serial for debug before HVAC connect to serial
   Serial.begin(115200);
   // Serial.println(F("Starting Mitsubishi2MQTT"));
-  // Mount SPIFFS filesystem
-  if (SPIFFS.begin())
+  // Mount LittleFS filesystem
+  if (LittleFS.begin())
   {
     // Serial.println(F("Mounted file system"));
   }
   else
   {
     // Serial.println(F("Failed to mount FS -> formating"));
-    SPIFFS.format();
-    // if (SPIFFS.begin())
+    LittleFS.format();
+    // if (LittleFS.begin())
     // Serial.println(F("Mounted file system after formating"));
   }
   //set led pin as output
@@ -117,8 +118,8 @@ void setup() {
   loadOthers();
   loadUnit();
   if (initWifi()) {
-    if (SPIFFS.exists(console_file)) {
-      SPIFFS.remove(console_file);
+    if (LittleFS.exists(console_file)) {
+      LittleFS.remove(console_file);
     }
     //write_log("Starting Mitsubishi2MQTT");
     //Web interface
@@ -209,11 +210,11 @@ void setup() {
 bool loadWifi() {
   ap_ssid = "";
   ap_pwd  = "";
-  if (!SPIFFS.exists(wifi_conf)) {
+  if (!LittleFS.exists(wifi_conf)) {
     // Serial.println(F("Wifi config file not exist!"));
     return false;
   }
-  File configFile = SPIFFS.open(wifi_conf, "r");
+  File configFile = LittleFS.open(wifi_conf, "r");
   if (!configFile) {
     // Serial.println(F("Failed to open wifi config file"));
     return false;
@@ -256,7 +257,7 @@ void saveMqtt(String mqttFn, String mqttHost, String mqttPort, String mqttUser,
   doc["mqtt_user"] = mqttUser;
   doc["mqtt_pwd"] = mqttPwd;
   doc["mqtt_topic"] = mqttTopic;
-  File configFile = SPIFFS.open(mqtt_conf, "w");
+  File configFile = LittleFS.open(mqtt_conf, "w");
   if (!configFile) {
     // Serial.println(F("Failed to open config file for writing"));
   }
@@ -286,7 +287,7 @@ void saveUnit(String tempUnit, String supportMode, String loginPassword, String 
   // if login password is empty, we use empty
   if (loginPassword == '\0') loginPassword = "";
   doc["login_password"]   = loginPassword;
-  File configFile = SPIFFS.open(unit_conf, "w");
+  File configFile = LittleFS.open(unit_conf, "w");
   if (!configFile) {
     // Serial.println(F("Failed to open config file for writing"));
   }
@@ -302,7 +303,7 @@ void saveWifi(String apSsid, String apPwd, String hostName, String otaPwd) {
   doc["ap_pwd"] = apPwd;
   doc["hostname"] = hostName;
   doc["ota_pwd"] = otaPwd;
-  File configFile = SPIFFS.open(wifi_conf, "w");
+  File configFile = LittleFS.open(wifi_conf, "w");
   if (!configFile) {
     // Serial.println(F("Failed to open wifi file for writing"));
   }
@@ -318,7 +319,7 @@ void saveOthers(String haa, String haat, String debug) {
   doc["haa"] = haa;
   doc["haat"] = haat;
   doc["debug"] = debug;
-  File configFile = SPIFFS.open(others_conf, "w");
+  File configFile = LittleFS.open(others_conf, "w");
   if (!configFile) {
     // Serial.println(F("Failed to open wifi file for writing"));
   }
@@ -372,12 +373,12 @@ void initOTA() {
 }
 
 bool loadMqtt() {
-  if (!SPIFFS.exists(mqtt_conf)) {
+  if (!LittleFS.exists(mqtt_conf)) {
     Serial.println(F("MQTT config file not exist!"));
     return false;
   }
   //write_log("Loading MQTT configuration");
-  File configFile = SPIFFS.open(mqtt_conf, "r");
+  File configFile = LittleFS.open(mqtt_conf, "r");
   if (!configFile) {
     //write_log("Failed to open MQTT config file");
     return false;
@@ -415,11 +416,11 @@ bool loadMqtt() {
 }
 
 bool loadUnit() {
-  if (!SPIFFS.exists(unit_conf)) {
+  if (!LittleFS.exists(unit_conf)) {
     // Serial.println(F("Unit config file not exist!"));
     return false;
   }
-  File configFile = SPIFFS.open(unit_conf, "r");
+  File configFile = LittleFS.open(unit_conf, "r");
   if (!configFile) {
     return false;
   }
@@ -454,11 +455,11 @@ bool loadUnit() {
 
 
 bool loadOthers() {
-  if (!SPIFFS.exists(others_conf)) {
+  if (!LittleFS.exists(others_conf)) {
     // Serial.println(F("Others config file not exist!"));
     return false;
   }
-  File configFile = SPIFFS.open(others_conf, "r");
+  File configFile = LittleFS.open(others_conf, "r");
   if (!configFile) {
     return false;
   }
@@ -639,7 +640,7 @@ void handleSetup() {
     pageReset.replace("_TXT_M_RESET_", FPSTR(txt_m_reset));
     pageReset.replace("_SSID_", ssid);
     sendWrappedHTML(pageReset);
-    SPIFFS.format();
+    LittleFS.format();
     delay(500);
 #ifdef ESP32
     ESP.restart();
@@ -1175,7 +1176,7 @@ void handleUploadLoop()
 }
 
 void write_log(String log) {
-  File logFile = SPIFFS.open(console_file, "a");
+  File logFile = LittleFS.open(console_file, "a");
   logFile.println(log);
   logFile.close();
 }
